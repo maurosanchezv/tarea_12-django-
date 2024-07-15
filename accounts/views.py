@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy, reverse
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
+from django.shortcuts import redirect
 from .forms import (
     CustomUserCreationForm,
     UserUpdateForm,
@@ -29,7 +30,7 @@ class OnlyYouMixin(UserPassesTestMixin):
 class UserCreateAndLoginView(CreateView):
     form_class = CustomUserCreationForm
     template_name = "signup.html"
-    success_url = reverse_lazy("tasks:index")
+    success_url = reverse_lazy('tasks:index')
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -38,6 +39,11 @@ class UserCreateAndLoginView(CreateView):
         user = authenticate(email=email, password=raw_pw)
         login(self.request, user)
         return response
+
+
+def logout_view(request):
+    logout(request)
+    return redirect(reverse_lazy('login'))
 
 
 class UserDetail(DetailView):
