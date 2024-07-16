@@ -36,11 +36,6 @@ class UserCreateAndLoginView(CreateView):
         return response
 
 
-def logout_view(request):
-    logout(request)
-    return redirect(reverse_lazy('login'))
-
-
 class UserDetail(DetailView):
     model = User
     template_name = 'user_detail.html'
