@@ -1,7 +1,10 @@
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import redirect
-from .forms import (CustomUserCreationForm, UserUpdateForm,)
+from .forms import (
+    CustomUserCreationForm,
+    UserUpdateForm,
+)
 from django.contrib.auth import get_user_model
 from django.views.generic import (
     CreateView, DetailView, UpdateView, DeleteView,)    # cambiar
@@ -31,6 +34,11 @@ class UserCreateAndLoginView(CreateView):
         user = authenticate(email=email, password=raw_pw)
         login(self.request, user)
         return response
+
+
+def logout_view(request):
+    logout(request)
+    return redirect(reverse_lazy('login'))
 
 
 class UserDetail(DetailView):
